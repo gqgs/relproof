@@ -90,7 +90,7 @@ The first MVP does **not** require AI, a verified compiler, complex aggregation,
 
 ## Work plan
 
-See `docs/ROADMAP.md` and `issues/`. The issue files can be published using `scripts/publish.sh`, which will also create a private GitHub repository if necessary.
+See `docs/ROADMAP.md`.
 
 ## Related work
 
