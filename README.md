@@ -10,7 +10,7 @@ SQL is powerful, but understanding the database schema and business requirements
 
 RelProof explores a restricted, familiar Python syntax for specifying **what** a relational query must return, with one canonical mathematical meaning. Implementations can target multiple database engines. A reference interpreter and verification tools check whether generated implementations preserve the specification.
 
-### Example (proposed syntax, not yet executable)
+### Example
 
 ```python
 @query
@@ -29,7 +29,7 @@ This expresses the business rule without requiring SQL joins, grouping, or HAVIN
 
 The explicit `set(...)` emphasizes the result model. A Python set comprehension (`{customer for customer in Customers if ...}`) is also a set, but `set({ ... })` would unnecessarily construct one set from another. RelProof's `set` and `count` are statically interpreted DSL intrinsics, not arbitrary runtime calls: both deduplicate by schema-defined entity identity.
 
-### Composition: reusable domain predicates (proposed syntax)
+### Composition: reusable domain predicates
 
 ```python
 def is_paid(order: Order) -> bool:
