@@ -15,18 +15,48 @@ RelProof explores a restricted, familiar Python syntax for specifying **what** a
 ```python
 @query
 def repeat_buyers() -> set[Customer]:
-    return {
-        customer
-        for customer in Customers
+    return set(
+        customer for customer in Customers
         if count(
             order for order in Orders
             if order.customer_id == customer.id
             and order.status == Paid
         ) >= 2
-    }
+    )
 ```
 
 This expresses the business rule without requiring SQL joins, grouping, or HAVING. The schema supplies `Customers`, `Orders`, identity keys, attribute types, and declared relationships.
+
+The explicit `set(...)` emphasizes the result model. A Python set comprehension (`{customer for customer in Customers if ...}`) is also a set, but `set({ ... })` would unnecessarily construct one set from another. RelProof's `set` and `count` are statically interpreted DSL intrinsics, not arbitrary runtime calls: both deduplicate by schema-defined entity identity.
+
+### Composition: reusable domain predicates (proposed syntax)
+
+```python
+def is_paid(order: Order) -> bool:
+    return order.status == Paid
+
+
+def belongs_to(order: Order, customer: Customer) -> bool:
+    return order.customer_id == customer.id
+
+
+def is_repeat_buyer(customer: Customer) -> bool:
+    return count(
+        order for order in Orders
+        if is_paid(order)
+        and belongs_to(order, customer)
+    ) >= 2
+
+
+@query
+def repeat_buyers() -> set[Customer]:
+    return set(
+        customer for customer in Customers
+        if is_repeat_buyer(customer)
+    )
+```
+
+The composed and inline forms should have identical meaning. Only pure, statically resolved, nonrecursive helper definitions are in scope; the compiler may inline them or lower them to typed IR. Neither form executes arbitrary Python. See [the inline example](examples/repeat_buyers.py) and [the compositional example](examples/repeat_buyers_composed.py).
 
 ## Key design decisions
 
