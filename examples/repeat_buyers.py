@@ -2,12 +2,11 @@
 
 @query
 def repeat_buyers() -> set[Customer]:
-    return {
-        customer
-        for customer in Customers
+    return set(
+        customer for customer in Customers
         if count(
             order for order in Orders
             if order.customer_id == customer.id
             and order.status == Paid
         ) >= 2
-    }
+    )
