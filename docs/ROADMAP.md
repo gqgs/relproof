@@ -7,12 +7,12 @@ A person who knows Python basics and a domain schema can express a query's inten
 ## Phase 0 — Freeze a minimal semantic contract
 
 - Defined set-vs-bag behavior, row identity, ordering assumptions, NULL/optional values, integer/time semantics, and query purity.
-- Supported syntax includes typed `@query` functions, comprehensions, comparisons, boolean operators, and a minimal `count` quantifier.
+- Supported syntax includes typed `@query` functions, `set(generator)` (and equivalent set comprehensions), comparisons, boolean operators, `count`, and pure, typed, nonrecursive helper predicates.
 - Reject all unsupported Python syntax rather than silently interpreting it.
 
 ## Phase 1 — MVP prototype
 
-- Schema definitions; AST validator; typed canonical IR.
+- Schema definitions; AST validator; typed canonical IR. Static helper resolution/composition must preserve the meaning of inlined equivalent predicates.
 - Independent interpreter and SQLite compiler.
 - Exact-in-scope fixture for `repeat_buyers`, with a deliberately incorrect SQL translation caught by a counterexample.
 - Generated finite instances and differential checks; explicit `not proved` status.
