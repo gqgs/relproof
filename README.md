@@ -2,7 +2,7 @@
 
 **Python-like relational specifications with portable, verifiable implementations.**
 
-> **Status:** research concept / MVP backlog. No parser, compiler, verifier, or correctness theorem has been implemented yet.
+> **Status:** semantic foundation specified (v0.1); implementation remains an MVP backlog. No parser, compiler, verifier, or correctness theorem has been implemented yet.
 
 ## Motivation
 
@@ -56,12 +56,12 @@ def repeat_buyers() -> set[Customer]:
     )
 ```
 
-The composed and inline forms should have identical meaning. Only pure, statically resolved, nonrecursive helper definitions are in scope; the compiler may inline them or lower them to typed IR. Neither form executes arbitrary Python. See [the inline example](examples/repeat_buyers.py) and [the compositional example](examples/repeat_buyers_composed.py).
+The composed and inline forms have the same specified meaning. Only pure, statically resolved, nonrecursive helper definitions are in scope; the compiler may inline them or lower them to typed IR. Neither form executes arbitrary Python. See [the inline example](examples/repeat_buyers.py) and [the compositional example](examples/repeat_buyers_composed.py).
 
 ## Key design decisions
 
 - **Python syntax, not arbitrary Python execution.** Parse with `ast`; whitelist constructs and reject unsupported features explicitly.
-- **Semantics over sugar.** Model queries as finite sets of typed records initially. No implicit bags, truthy-null coercions, or unordered-versus-ordered ambiguity.
+- **Semantics over sugar.** Model queries as finite sets of typed entity identities. No implicit bags, truthy-null coercions, or unordered-versus-ordered ambiguity.
 - **Single specification, multiple backends.** A typed relational IR is interpreted independently and compiled to SQL dialects.
 - **AI is untrusted.** AI may help users author specs or propose optimized SQL, but doesn't decide whether a generated implementation is correct.
 - **Separate tests from proofs.** Differential/property-based tests detect counterexamples; passing them is NOT a proof. An `UNKNOWN` verification result is not a success.
@@ -120,7 +120,9 @@ The first MVP does **not** require AI, a verified compiler, complex aggregation,
 
 ## Work plan
 
-See `docs/ROADMAP.md`.
+See [the roadmap](docs/ROADMAP.md), [the normative v0.1 semantic contract](docs/SEMANTICS.md), and [accepted/rejected programs and database witnesses](examples/SEMANTIC_CASES.md).
+
+The initial contract uses int64 values without arithmetic, exact string equality, nominal keys, mandatory fields/references, and entity-only sets. NULL/Option and structural projections are excluded. The examples are DSL source, not executable Python; no implementation or formal verification is delivered by the specification.
 
 ## Related work
 

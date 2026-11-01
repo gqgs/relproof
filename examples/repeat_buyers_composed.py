@@ -1,4 +1,4 @@
-"""Illustrative RelProof source syntax: pure helper composition, not yet executable."""
+"""Accepted RelProof v0.1 DSL; schema and expected results: SEMANTIC_CASES.md."""
 
 
 def is_paid(order: Order) -> bool:

@@ -4,9 +4,10 @@
 
 A person who knows Python basics and a domain schema can express a query's intended semantics without learning SQL. SQL is an implementation detail, and the implementation can be checked against an independent formal meaning.
 
-## Phase 0 — Freeze a minimal semantic contract
+## Phase 0 — Semantic contract v0.1 specified (issue #1)
 
-- Defined set-vs-bag behavior, row identity, ordering assumptions, NULL/optional values, integer/time semantics, and query purity.
+- [Normative contract](SEMANTICS.md): identity sets, lexical scope, helper substitution, int64 without arithmetic, exact string equality, and explicit exclusion of NULL/Option and time values.
+- [Conformance cases](../examples/SEMANTIC_CASES.md): accepted/rejected programs, empty relations, join multiplicity, incorrect counting, and helper capture. These are specification fixtures, not a running verifier.
 - Supported syntax includes typed `@query` functions, `set(generator)` (and equivalent set comprehensions), comparisons, boolean operators, `count`, and pure, typed, nonrecursive helper predicates.
 - Reject all unsupported Python syntax rather than silently interpreting it.
 
