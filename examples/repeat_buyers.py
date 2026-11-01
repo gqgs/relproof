@@ -1,4 +1,4 @@
-"""Proposed RelProof source syntax; illustrative only, not executable yet."""
+"""Accepted RelProof v0.1 DSL; schema and expected results: SEMANTIC_CASES.md."""
 
 @query
 def repeat_buyers() -> set[Customer]:
